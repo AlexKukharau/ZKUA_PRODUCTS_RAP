@@ -1,0 +1,11 @@
+@EndUserText.label: 'Service Definition for Product'
+define service zkua_ui_product {
+  expose zkua_c_product as Product;
+  expose zkua_c_prod_mrkt as ProductMarket;
+  expose zkua_c_mrkt_ordr as MarketOrder;
+  expose zkua_i_currency as Currency;
+  expose zkua_i_market as Market;
+  expose zkua_i_pg as ProductGroup;
+  expose zkua_i_phase as Phase;
+  expose zkua_i_uom as UOM;
+}

@@ -1,0 +1,5 @@
+CLASS zbp_kua_i_prod_mrkt DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zkua_i_product.
+ENDCLASS.
+
+CLASS zbp_kua_i_prod_mrkt IMPLEMENTATION.
+ENDCLASS.

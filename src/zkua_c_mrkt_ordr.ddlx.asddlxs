@@ -1,0 +1,174 @@
+@Metadata.layer: #CORE
+@UI: {
+    headerInfo: { typeName: 'Order',
+                  typeNamePlural: 'Orders',
+                  imageUrl: 'ImageUrl' },
+    presentationVariant: [{ sortOrder: [{ by: 'DeliveryDate', direction: #ASC } ] }],
+    chart: [ { qualifier: 'OrderQuantity',
+               title: 'Order Quantity',
+               chartType: #BAR,
+               dimensions: ['DeliveryDate'],
+               measures: ['Quantity'],
+               measureAttributes: [{ measure: 'Quantity', role: #AXIS_1 }],
+               dimensionAttributes: [{ dimension: 'DeliveryDate', role: #CATEGORY }],
+               description: 'Items Quantity by Delivery Date per each Market' },
+             { qualifier: 'OrderAmount',
+               title: 'Order Amount',
+               chartType: #BAR_DUAL,
+               dimensions: ['DeliveryDate'],
+               measures: ['Netamount', 'Grossamount' ],
+               measureAttributes: [{ measure: 'Netamount', role: #AXIS_1 },
+                                   { measure: 'Grossamount', role: #AXIS_2 }],
+               dimensionAttributes: [{ dimension: 'DeliveryDate', role: #CATEGORY }],
+               description: 'Items Amount by Delivery Date per each Market' }]
+           }
+
+annotate view zkua_c_mrkt_ordr with
+{
+
+  @UI.facet: [
+
+              { id: 'GrossAmount',
+                purpose: #HEADER,
+                type: #DATAPOINT_REFERENCE,
+                position: 10,
+                targetQualifier: 'GrossAmount'
+               },
+
+              { id: 'NetAmount',
+                purpose: #HEADER,
+                type: #DATAPOINT_REFERENCE,
+                position: 20,
+                targetQualifier: 'NetAmount'
+               },
+
+
+              { id: 'OrderId',
+                purpose: #HEADER,
+                type: #DATAPOINT_REFERENCE,
+                position: 30,
+                targetQualifier: 'OrderId'
+               },
+
+              { id: 'GeneralInfo',
+              purpose: #STANDARD,
+              label: 'General Information',
+              type: #COLLECTION,
+              position: 10
+             },
+
+            { id: 'BasicData',
+              purpose: #STANDARD,
+              type: #FIELDGROUP_REFERENCE,
+              parentId: 'GeneralInfo',
+              label: 'Basic Data',
+              position: 10,
+              targetQualifier: 'BasicData'
+             },
+
+            { id: 'BusinessPartner',
+              purpose: #STANDARD,
+              label: 'Business Partner',
+              type: #COLLECTION,
+              position: 15
+             },
+
+            { id: 'PartnerData',
+              purpose: #STANDARD,
+              type: #FIELDGROUP_REFERENCE,
+              parentId: 'BusinessPartner',
+              label: 'Business Partner Info',
+              position: 10,
+              targetQualifier: 'PartnerData'
+             },
+
+            { id: 'AdminData',
+              purpose: #STANDARD,
+              type: #COLLECTION,
+              label: 'Admin Data',
+              position: 20
+             },
+
+            { id: 'AdminInfo',
+              purpose: #STANDARD,
+              type: #FIELDGROUP_REFERENCE,
+              parentId: 'AdminData',
+              label: 'Create Info',
+              position: 10,
+              targetQualifier: 'CreateData'
+             },
+
+            { id: 'ChangeInfo',
+              purpose: #STANDARD,
+              type: #FIELDGROUP_REFERENCE,
+              parentId: 'AdminData',
+              label: 'Change Info',
+              position: 20,
+              targetQualifier: 'ChangeData'
+             },
+
+            { id: 'MarketOrder',
+              purpose: #STANDARD,
+              type: #IDENTIFICATION_REFERENCE,
+              position: 10
+             } ]
+
+  @UI.hidden: true
+  ProdUuid;
+
+  @UI.hidden: true
+  MrktUuid;
+
+  @UI.hidden: true
+  OrderUuid;
+
+  @UI: { lineItem:       [ { position: 10, importance: #HIGH } ],
+         dataPoint: { qualifier: 'OrderId', title: 'Order ID:'},
+         fieldGroup: [{ qualifier: 'BasicData', position: 10 } ] }
+  Orderid;
+
+  @UI: { lineItem:       [ { position: 20, importance: #HIGH } ],
+       fieldGroup: [{ qualifier: 'BasicData', position: 20 } ] }
+  CalendarYear;
+
+  @UI: { lineItem:       [ { position: 30, importance: #HIGH } ],
+       fieldGroup: [{ qualifier: 'BasicData', position: 30 } ] }
+  DeliveryDate;
+
+  @UI: { lineItem:       [ { position: 35, importance: #HIGH } ],
+       textArrangement: #TEXT_ONLY,
+       fieldGroup: [{ qualifier: 'PartnerData', position: 10 } ] }
+  BussPartner;
+
+  @UI: { fieldGroup: [{ qualifier: 'PartnerData', position: 20 } ] }
+  BussPartnerGroup;
+
+  @UI: { fieldGroup: [{ qualifier: 'PartnerData', position: 30 } ] }
+  BussPartnerName;
+
+
+  @UI: { lineItem:       [ { position: 40, importance: #HIGH } ],
+       fieldGroup: [{ qualifier: 'BasicData', position: 40 } ] }
+  Quantity;
+
+  @UI: { lineItem:       [ { position: 50, importance: #HIGH } ],
+        dataPoint: { qualifier: 'NetAmount', title: 'Net Amount:'} }
+  Netamount;
+
+  @UI: { lineItem:       [ { position: 60, importance: #HIGH } ],
+        dataPoint: { qualifier: 'GrossAmount', title: 'Gross Amount:'} }
+  Grossamount;
+
+  @UI.fieldGroup: [ { qualifier: 'CreateData', position: 10 } ]
+  CreatedBy;
+
+  @UI.fieldGroup: [ { qualifier: 'CreateData', position: 20 } ]
+  CreationTime;
+
+  @UI.fieldGroup: [ { qualifier: 'ChangeData', position: 10 } ]
+  ChangedBy;
+
+  @UI.fieldGroup: [ { qualifier: 'ChangeData', position: 20 } ]
+  ChangeTime;
+
+}

@@ -1,0 +1,50 @@
+projection;
+strict ( 1 );
+use draft;
+
+define behavior for zkua_c_product alias Product
+use etag
+{
+  use create;
+  use update;
+  use delete;
+
+  use association _ProductMarket { create; with draft; }
+
+  use action Prepare;
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+
+  use action MakeCopy;
+  use action MoveToNextPhase;
+
+}
+
+define behavior for zkua_c_prod_mrkt alias ProductMarket
+use etag
+{
+  use update;
+  use delete;
+
+  use association _Product { with draft; }
+  use association _MarketOrder { create; with draft; }
+
+  field ( readonly ) Status;
+
+  use action Confirm;
+}
+
+define behavior for zkua_c_mrkt_ordr alias MarketOrder
+use etag
+{
+  use update;
+  use delete;
+
+  use association _Product { with draft; }
+  use association _ProductMarket { with draft; }
+
+  field ( readonly ) Orderid, Amountcurr, Grossamount, Netamount, CalendarYear;
+
+}

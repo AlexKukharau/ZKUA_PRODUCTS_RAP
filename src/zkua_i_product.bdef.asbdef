@@ -1,0 +1,155 @@
+managed;
+strict ( 1 );
+with draft;
+
+define behavior for zkua_i_product alias Product
+implementation in class zbp_kua_i_product unique
+persistent table zkua_d_product
+draft table zkua_d_productd
+lock master total etag ChangeTime
+authorization master ( instance )
+etag master ChangeTime
+{
+  create;
+  update;
+  delete;
+  association _ProductMarket { create; with draft; }
+
+  field ( numbering : managed, readonly ) ProdUuid;
+  field ( readonly ) CreatedBy, CreationTime, ChangedBy, ChangeTime;
+  field ( mandatory ) Prodid, Pgid, Price, PriceCurrency;
+  field ( readonly ) Phaseid;
+
+  validation ValidatePg on save { field Pgid; create; }
+  validation ValidateProdid on save { field Prodid; create; }
+
+  draft determine action Prepare
+  {
+    validation ValidatePg;
+    validation ValidateProdid;
+    validation ProductMarket~ValidateMarket;
+    validation ProductMarket~ValidateStartDate;
+    validation ProductMarket~ValidateEndDate;
+    validation ProductMarket~CheckDuplicates;
+    validation MarketOrder~Validate_Delivery_Date;
+
+  }
+
+  draft action Edit;
+  draft action Activate;
+  draft action Discard;
+  draft action Resume;
+
+  determination SetFirstPhase on save { create; }
+
+  action ( features : instance ) MakeCopy parameter zkua_a_prodid result [1] $self;
+  action ( features : instance ) MoveToNextPhase result [1] $self;
+
+  mapping for zkua_d_product
+  {
+    ProdUuid = prod_uuid;
+    Prodid = prodid;
+    Pgid = pgid;
+    Phaseid = phaseid;
+    Height = height;
+    Depth = depth;
+    Width = width;
+    SizeUom = size_uom;
+    Price = price;
+    PriceCurrency = price_currency;
+    Taxrate = taxrate;
+    CreatedBy = created_by;
+    CreationTime = creation_time;
+    ChangedBy = changed_by;
+    ChangeTime = change_time;
+  }
+}
+
+define behavior for zkua_i_prod_mrkt alias ProductMarket
+implementation in class zbp_kua_i_prod_mrkt unique
+persistent table zkua_d_prod_mrkt
+draft table zkua_d_prod_mrkd
+lock dependent by _Product
+authorization dependent by _Product
+etag master ChangeTime
+{
+  update;
+  delete;
+  association _MarketOrder { create (features : instance); with draft; }
+  association _Product { with draft; }
+
+  field ( numbering : managed, readonly ) MrktUuid;
+  field ( mandatory ) MrktId, StartDate;
+  field ( readonly ) CreatedBy, CreationTime, ChangedBy, ChangeTime;
+  field ( readonly ) ProdUuid, IsoCode;
+
+    validation ValidateMarket on save { field MrktId; create; }
+    validation ValidateStartDate on save { field StartDate; create; }
+    validation ValidateEndDate on save { field EndDate; create; }
+    validation CheckDuplicates on save { field MrktId; create; }
+
+    determination set_iso_code on save { field IsoCode; create; update; }
+
+    action (features : instance) Confirm result [1] $self;
+
+  mapping for zkua_d_prod_mrkt
+  {
+    ProdUuid = prod_uuid;
+    MrktUuid = mrkt_uuid;
+    Mrktid = mrktid;
+    Status = status;
+    Startdate = startdate;
+    Enddate = enddate;
+    CreatedBy = created_by;
+    CreationTime = creation_time;
+    ChangedBy = changed_by;
+    ChangeTime = change_time;
+  }
+}
+
+define behavior for zkua_i_mrkt_ordr alias MarketOrder
+implementation in class zbp_kua_i_mrkt_ordr unique
+persistent table zkua_d_mrkt_ordr
+draft table zkua_d_mrkt_ordd
+lock dependent by _Product
+authorization dependent by _Product
+etag master ChangeTime
+{
+  update;
+  delete;
+  association _Product { with draft; }
+  association _ProductMarket { with draft; }
+
+  field ( numbering : managed, readonly ) OrderUuid;
+  field ( mandatory ) Quantity, DeliveryDate;
+  field ( readonly ) CreatedBy, CreationTime, ChangedBy, ChangeTime;
+  field ( readonly ) ProdUuid, MrktUuid;
+
+  determination Calculate_Orderid on save { create; }
+  determination Set_Calendar_Year on save { field DeliveryDate; }
+  determination Calculate_Amount on modify  { field Quantity; }
+
+
+  validation Validate_Delivery_Date on save { field DeliveryDate; create; }
+
+
+
+  mapping for zkua_d_mrkt_ordr
+  {
+
+  ProdUuid = prod_uuid;
+  MrktUuid = mrkt_uuid;
+  OrderUuid = order_uuid;
+  Orderid = orderid;
+  Quantity = quantity;
+  CalendarYear = calendar_year;
+  DeliveryDate = delivery_date;
+  Netamount = netamount;
+  Grossamount = grossamount;
+  Amountcurr = amountcurr;
+    CreatedBy = created_by;
+    CreationTime = creation_time;
+    ChangedBy = changed_by;
+    ChangeTime = change_time;
+  }
+}

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_MSAG" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <T100A>
+    <ARBGB>ZKUA_MSG</ARBGB>
+    <MASTERLANG>E</MASTERLANG>
+    <STEXT>Text Messages</STEXT>
+   </T100A>
+   <T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZKUA_MSG</ARBGB>
+     <MSGNR>001</MSGNR>
+     <TEXT>Product Group doesn&apos;t exist.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZKUA_MSG</ARBGB>
+     <MSGNR>002</MSGNR>
+     <TEXT>Product ID &amp;1 already exists.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZKUA_MSG</ARBGB>
+     <MSGNR>003</MSGNR>
+     <TEXT>Market doesn&apos;t exist.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZKUA_MSG</ARBGB>
+     <MSGNR>004</MSGNR>
+     <TEXT>Start Date must be greater than or equal to today’s  today.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZKUA_MSG</ARBGB>
+     <MSGNR>005</MSGNR>
+     <TEXT>End Date must be greater than today.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZKUA_MSG</ARBGB>
+     <MSGNR>006</MSGNR>
+     <TEXT>End Date must be greater than Start Date.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZKUA_MSG</ARBGB>
+     <MSGNR>007</MSGNR>
+     <TEXT>This market is already assigned to the product.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZKUA_MSG</ARBGB>
+     <MSGNR>008</MSGNR>
+     <TEXT>The Product must have at least one assigned Market</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZKUA_MSG</ARBGB>
+     <MSGNR>009</MSGNR>
+     <TEXT>At least one Market of the Product must be confirmed</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZKUA_MSG</ARBGB>
+     <MSGNR>010</MSGNR>
+     <TEXT>End Date of all Markets must be less than or equal to today’s date</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZKUA_MSG</ARBGB>
+     <MSGNR>011</MSGNR>
+     <TEXT>Delivery Date must be greater than Market Start Date &amp;1</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZKUA_MSG</ARBGB>
+     <MSGNR>012</MSGNR>
+     <TEXT>Delivery Date must be less than or equal to Market End Date &amp;1</TEXT>
+    </T100>
+   </T100>
+  </asx:values>
+ </asx:abap>
+</abapGit>

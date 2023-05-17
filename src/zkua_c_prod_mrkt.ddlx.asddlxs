@@ -1,0 +1,182 @@
+@Metadata.layer: #CORE
+@UI: {
+    headerInfo: {
+                  typeName: 'Market',
+                  typeNamePlural: 'Markets',
+                  imageUrl: 'ImageUrl',
+                  title: { type: #STANDARD } },
+    chart: [ { qualifier: 'MarketQuantity',
+               title: 'Market Quantity',
+               chartType: #DONUT,
+               dimensions: ['Mrktid'],
+               measures: ['TotalQuantity'],
+               measureAttributes: [{ measure: 'TotalQuantity', role: #AXIS_1 }],
+               dimensionAttributes: [{ dimension: 'Mrktid', role: #CATEGORY }],
+               description: 'Total Quantity by Market' },
+             { qualifier: 'MarketAmount',
+               title: 'Market Amount',
+               chartType: #BAR_DUAL,
+               dimensions: ['Mrktid'],
+               measures: ['TotalNetamount', 'TotalGrossamount' ],
+               measureAttributes: [{ measure: 'TotalNetamount', role: #AXIS_1 },
+                                   { measure: 'TotalGrossamount', role: #AXIS_2 }],
+               dimensionAttributes: [{ dimension: 'Mrktid', role: #CATEGORY }],
+               description: 'Total Amounts by Market' }]
+           }
+
+
+annotate view zkua_c_prod_mrkt with
+{
+
+  @UI.facet: [
+
+              { id: 'EndDate',
+                purpose: #HEADER,
+                type: #DATAPOINT_REFERENCE,
+                position: 10,
+                targetQualifier: 'EndDate'
+               },
+
+              { id: 'Country',
+                purpose: #HEADER,
+                type: #DATAPOINT_REFERENCE,
+                position: 20,
+                targetQualifier: 'Country'
+               },
+
+
+              { id: 'StartDate',
+                purpose: #HEADER,
+                type: #DATAPOINT_REFERENCE,
+                position: 30,
+                targetQualifier: 'StartDate'
+               },
+
+              { id: 'GeneralInfo',
+              purpose: #STANDARD,
+              label: 'General Information',
+              type: #COLLECTION,
+              position: 10
+             },
+
+
+            { id: 'BasicData',
+              purpose: #STANDARD,
+              type: #FIELDGROUP_REFERENCE,
+              parentId: 'GeneralInfo',
+              label: 'Basic Data',
+              position: 10,
+              targetQualifier: 'BasicData'
+             },
+
+            { id: 'AdminData',
+              purpose: #STANDARD,
+              type: #COLLECTION,
+              label: 'Admin Data',
+              position: 20
+             },
+
+            { id: 'AdminInfo',
+              purpose: #STANDARD,
+              type: #FIELDGROUP_REFERENCE,
+              parentId: 'AdminData',
+              label: 'Create Info',
+              position: 10,
+              targetQualifier: 'CreateData'
+             },
+
+            { id: 'ChangeInfo',
+              purpose: #STANDARD,
+              type: #FIELDGROUP_REFERENCE,
+              parentId: 'AdminData',
+              label: 'Change Info',
+              position: 20,
+              targetQualifier: 'ChangeData'
+             },
+
+            { id: 'ProductMarket',
+              purpose: #STANDARD,
+              type: #IDENTIFICATION_REFERENCE,
+              position: 10
+             },
+
+            { id: 'MarketOrder',
+              purpose: #STANDARD,
+              type: #LINEITEM_REFERENCE,
+              label: 'Orders',
+              position: 30,
+              targetElement: '_MarketOrder'
+             },
+            { id: 'OrderQuantity',
+              label: 'Order Quantity',
+              position: 40,
+              purpose: #STANDARD,
+              targetElement: '_MarketOrder',
+              targetQualifier: 'OrderQuantity',
+              type: #CHART_REFERENCE
+             },
+            { id: 'OrderAmount',
+              label: 'Order Amount',
+              position: 50,
+              purpose: #STANDARD,
+              targetElement: '_MarketOrder',
+              targetQualifier: 'OrderAmount',
+              type: #CHART_REFERENCE
+             } ]
+
+  @UI.lineItem:       [ { type: #FOR_ACTION, dataAction: 'Confirm', label: 'Confirm', position: 10 } ]
+  @UI.identification: [ { type: #FOR_ACTION, dataAction: 'Confirm', label: 'Confirm', position: 10 } ]
+
+  @UI.hidden: true
+  ProdUuid;
+
+  @UI.hidden: true
+  MrktUuid;
+
+  @UI: { lineItem:       [ { position: 10, importance: #HIGH } ],
+         dataPoint: { qualifier: 'Country', title: 'Country:'},
+         textArrangement: #TEXT_ONLY,
+         fieldGroup: [{ qualifier: 'BasicData', position: 10 } ] }
+  Mrktid;
+
+  @UI: { lineItem:       [ { position: 15, importance: #HIGH } ],
+         fieldGroup: [{ qualifier: 'BasicData', position: 15 } ] }
+  IsoCode;
+
+  @UI: { lineItem:       [ { position: 20, criticality: 'StatusCriticality', importance: #HIGH } ],
+         fieldGroup: [{ qualifier: 'BasicData', criticality: 'StatusCriticality', position: 20 } ] }
+  Status;
+
+  @UI: { lineItem:       [ { position: 30, importance: #HIGH } ],
+         dataPoint: { qualifier: 'StartDate', title: 'Start Date:'},
+         fieldGroup: [{ qualifier: 'BasicData', position: 30 } ] }
+  Startdate;
+
+  @UI: { lineItem:       [ { position: 40, importance: #HIGH } ],
+         dataPoint: { qualifier: 'EndDate', title: 'End Date:'},
+         fieldGroup: [{ qualifier: 'BasicData', position: 40 } ] }
+  Enddate;
+
+  @UI: { lineItem:       [{ position: 50, importance: #HIGH }] }
+  TotalQuantity;
+
+  @UI: { lineItem:       [{ position: 60, importance: #HIGH }] }
+  TotalNetamount;
+
+  @UI: { lineItem:       [{ position: 70, importance: #HIGH }] }
+  TotalGrossamount;
+
+
+  @UI.fieldGroup: [ { qualifier: 'CreateData', position: 10 } ]
+  CreatedBy;
+
+  @UI.fieldGroup: [ { qualifier: 'CreateData', position: 20 } ]
+  CreationTime;
+
+  @UI.fieldGroup: [ { qualifier: 'ChangeData', position: 10 } ]
+  ChangedBy;
+
+  @UI.fieldGroup: [ { qualifier: 'ChangeData', position: 20 } ]
+  ChangeTime;
+
+}
